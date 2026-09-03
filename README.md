@@ -12,13 +12,13 @@ Repository containing hands-on practical assignments, evidence, and documentatio
 
 | # | Module | Repository Folder | Direct Google Form Submission Link | Status |
 |---|---|---|---|---|
-| 1 | **Linux Fundamentals** | [📁 `linux-fundamentals/`](./linux-fundamentals/README.md) | [README Link](https://github.com/WhySeriousKaif/DevOps-Homework/blob/main/linux-fundamentals/README.md) | ✅ Ready |
-| 2 | **Shell Scripting** | [📁 `shell-scripting/`](./shell-scripting/README.md) | [README Link](https://github.com/WhySeriousKaif/DevOps-Homework/blob/main/shell-scripting/README.md) | ✅ Ready |
-| 3 | **Networking Fundamentals** | [📁 `networking/`](./networking/README.md) | [README Link](https://github.com/WhySeriousKaif/DevOps-Homework/blob/main/networking/README.md) | ✅ Ready |
-| 4 | **Git / GitHub** | [📁 `git-github/`](./git-github/README.md) | [README Link](https://github.com/WhySeriousKaif/DevOps-Homework/blob/main/git-github/README.md) | ✅ Ready |
-| 5 | **Docker Fundamentals** | [📁 `docker-fundamentals/`](./docker-fundamentals/README.md) | [README Link](https://github.com/WhySeriousKaif/DevOps-Homework/blob/main/docker-fundamentals/README.md) | ✅ Ready |
+| 1 | **Linux Fundamentals** | [📁 `linux-fundamentals/`](./linux-fundamentals/README.md) | [README Link](https://github.com/WhySeriousKaif/DevOps-Homework/blob/main/linux-fundamentals/README.md) | ✅ Completed |
+| 2 | **Shell Scripting** | [📁 `shell-scripting/`](./shell-scripting/README.md) | [README Link](https://github.com/WhySeriousKaif/DevOps-Homework/blob/main/shell-scripting/README.md) | ✅ Completed |
+| 3 | **Networking Fundamentals** | [📁 `networking/`](./networking/README.md) | [README Link](https://github.com/WhySeriousKaif/DevOps-Homework/blob/main/networking/README.md) | ✅ Completed |
+| 4 | **Git / GitHub** | [📁 `git-github/`](./git-github/README.md) | [README Link](https://github.com/WhySeriousKaif/DevOps-Homework/blob/main/git-github/README.md) | ✅ Completed |
+| 5 | **Docker Fundamentals** | [📁 `docker-fundamentals/`](./docker-fundamentals/README.md) | [README Link](https://github.com/WhySeriousKaif/DevOps-Homework/blob/main/docker-fundamentals/README.md) | ✅ Completed |
 | 6 | **Dockerfiles & Images** | [📁 `docker-images/`](./docker-images/README.md) | [README Link](https://github.com/WhySeriousKaif/DevOps-Homework/blob/main/docker-images/README.md) | ✅ Completed |
-| 7 | **Docker Networking** | [📁 `docker-networking/`](./docker-networking/README.md) | [README Link](https://github.com/WhySeriousKaif/DevOps-Homework/blob/main/docker-networking/README.md) | ✅ Ready |
+| 7 | **Docker Networking** | [📁 `docker-networking/`](./docker-networking/README.md) | [README Link](https://github.com/WhySeriousKaif/DevOps-Homework/blob/main/docker-networking/README.md) | ✅ Completed |
 
 ---
 
