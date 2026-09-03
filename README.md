@@ -15,9 +15,10 @@ Repository containing hands-on practical assignments, evidence, and documentatio
 | **Shell Scripting** | [📁 shell-scripting/README.md](./shell-scripting/README.md) | ✅ Completed |
 | **Networking** | [📁 networking/README.md](./networking/README.md) | ✅ Completed |
 | **Git and GitHub** | [📁 git-github/README.md](./git-github/README.md) | ⏳ Upcoming |
-| **Docker Fundamentals** | [📁 docker-fundamentals/README.md](./docker-fundamentals/README.md) | ⏳ Upcoming |
+| **Docker Fundamentals** | [📁 docker-fundamentals/README.md](./docker-fundamentals/README.md) | 🚀 In Progress |
 | **Docker Images** | [📁 docker-images/README.md](./docker-images/README.md) | ⏳ Upcoming |
 | **Docker Networking** | [📁 docker-networking/README.md](./docker-networking/README.md) | ⏳ Upcoming |
+| **Git and GitHub** | [📁 git-github/README.md](./git-github/README.md) | ⏳ Upcoming |
 
 ---
 
@@ -45,6 +46,16 @@ devops-homework/
 ├── networking/
 │   ├── README.md                      # Networking commands explanation & output
 │   └── screenshots/                   # Network diagnostic proofs
+│
+├── docker-fundamentals/
+│   ├── nodejs-app/                    # Node.js Hello World web app & Dockerfile
+│   ├── python-app/                    # Python Hello World web app & Dockerfile
+│   ├── java-app/                      # Java Hello World web app & Dockerfile
+│   ├── Apache-app/                    # Apache Hello World web app & Dockerfile
+│   ├── React-app/                     # React Hello World web app & Dockerfile
+│   ├── nginx-app/                     # Nginx Hello World web app & Dockerfile
+│   ├── README.md                      # Docker runtimes & port mapping guide
+│   └── screenshots/                   # Execution & browser proofs
 │
 └── ...
 ```

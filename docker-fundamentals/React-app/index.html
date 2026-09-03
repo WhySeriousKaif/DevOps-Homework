@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>React Hello World</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+  <script>
+    const e = React.createElement;
+    function App() {
+      return e('h1', null, 'Hello World from React Application!');
+    }
+    ReactDOM.render(e(App), document.getElementById('root'));
+  </script>
+</body>
+</html>
