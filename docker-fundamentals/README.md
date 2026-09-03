@@ -213,10 +213,24 @@ Active Docker containers running concurrently with their respective port binding
 
 ---
 
-### Screenshot 2: Webpage & HTTP Hello World Verification
-Curl / browser verification showing "Hello World" responses returned from all six running applications.
+### Screenshot 2: Multi-Service Terminal Verification
+Curl verification showing "Hello World" responses returned from all six running applications.
 
 ![Webpage Verification](screenshots/png2.png)
+
+---
+
+### Screenshot 3: Browser Verification — Node.js Application (Port 3000)
+Webpage displaying Hello World from the Node.js application running on port 3000.
+
+![Node.js Webpage](screenshots/png3.png)
+
+---
+
+### Screenshot 4: Browser Verification — Apache Web Server (Port 8081)
+Webpage displaying Hello World from the Apache HTTP server running on port 8081.
+
+![Apache Webpage](screenshots/png4.png)
 
 ---
 
