@@ -75,7 +75,18 @@ echo "Process info saved to $DIR_NAME/$FILE_NAME"
 ## Execution & Output Screenshots
 
 ### 1. Script Execution
-![Script Execution](screenshots/script_execution.png)
+Running `./system_info.sh` displaying system date, hostname, username, disk usage, and running processes:
+
+![Script Execution - Part 1](screenshots/png1.png)
+
+Interactive input (`read -p`) asking for directory name (`process_logs`) and file name (`processes.txt`), creating them, and redirecting process output:
+
+![Script Execution - Part 2](screenshots/png1.0.png)
+
+---
 
 ### 2. Output File Verification
-![File Verification](screenshots/file_verification.png)
+Verifying the created directory and redirected log file using `ls -la` and inspecting the content with `head -10`:
+
+![File Verification](screenshots/png2.png)
+
