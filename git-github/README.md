@@ -1,258 +1,215 @@
-# Git and GitHub Fundamentals: DevOps Homework
+# Git & GitHub: DevOps Homework
 
-A comprehensive guide and practical reference for Version Control Systems (VCS), Git internals, branching strategies, and collaborative GitHub workflows for DevOps.
+A practical laboratory covering Git commit mechanics (`git commit -a -m` vs `git commit -m`), branch management, and selective commit integration using `git cherry-pick`.
+
+---
+
+## Student Information
+
+- **Name:** MD Kaif Molla
+- **Enrollment Number:** 24BCS10221
+- **Repository:** [WhySeriousKaif/DevOps-Homework](https://github.com/WhySeriousKaif/DevOps-Homework)
 
 ---
 
 ## Table of Contents
 
-- [Overview & Importance in DevOps](#overview--importance-in-devops)
-- [Git Core Architecture & Three-Tree Model](#git-core-architecture--three-tree-model)
-- [Command Summary Cheat Sheet](#command-summary-cheat-sheet)
-- [Step-by-Step Hands-On Workflow](#step-by-step-hands-on-workflow)
-  - [1. Configuration & Identity](#1-configuration--identity)
-  - [2. Repository Initialization & Tracking](#2-repository-initialization--tracking)
-  - [3. Staging, Inspecting & Committing](#3-staging-inspecting--committing)
-  - [4. Branching & Feature Workflow](#4-branching--feature-workflow)
-  - [5. Merging & Conflict Resolution](#5-merging--conflict-resolution)
-  - [6. Remote Operations & GitHub Synchronization](#6-remote-operations--github-synchronization)
-- [DevOps Collaboration & GitHub Features](#devops-collaboration--github-features)
-  - [Pull Requests (PR) & Code Review](#pull-requests-pr--code-review)
-  - [Branch Protection & GitOps Integration](#branch-protection--gitops-integration)
-- [Verification & Screenshots](#verification--screenshots)
-- [Best Practices & Key Learnings](#best-practices--key-learnings)
+- [Task 1: git commit -a -m vs git commit -m](#task-1-git-commit--a--m-vs-git-commit--m)
+  - [1.1 Conceptual Difference](#11-conceptual-difference)
+  - [1.2 Comparison Table](#12-comparison-table)
+  - [1.3 Hands-On Experiment & Terminal Output](#13-hands-on-experiment--terminal-output)
+  - [1.4 Key Takeaway](#14-key-takeaway)
+- [Task 2: Git Cherry-Pick](#task-2-git-cherry-pick)
+  - [2.1 What is Cherry-Pick?](#21-what-is-cherry-pick)
+  - [2.2 Step-by-Step Hands-On Workflow](#22-step-by-step-hands-on-workflow)
+  - [2.3 Terminal Execution & Output](#23-terminal-execution--output)
+  - [2.4 Verification of Cherry-Picked Changes](#24-verification-of-cherry-picked-changes)
+- [Execution & Output Screenshots](#execution--output-screenshots)
+- [Key Learnings & DevOps Best Practices](#key-learnings--devops-best-practices)
 
 ---
 
-## Overview & Importance in DevOps
+## Task 1: git commit -a -m vs git commit -m
 
-Git is a **distributed version control system (DVCS)** that tracks changes in source code across time. In modern DevOps and Cloud Engineering, Git is the single source of truth:
-- **Infrastructure as Code (IaC):** Terraform, Ansible, and CloudFormation configurations are versioned in Git.
-- **CI/CD Triggers:** Automated pipelines (e.g., GitHub Actions, Jenkins, GitLab CI) trigger builds and tests on `git push` or `pull_request` events.
-- **GitOps:** Tools like ArgoCD and Flux synchronize live Kubernetes cluster states directly with declarative Git repositories.
-- **Traceability & Auditability:** Every deployment and infrastructure modification is traceable to an author, commit hash, and peer review.
+### 1.1 Conceptual Difference
 
----
+When saving changes in Git, files move through the **Working Tree** $\rightarrow$ **Staging Area (Index)** $\rightarrow$ **Repository History**.
 
-## Git Core Architecture & Three-Tree Model
-
-Git manages files across three local distinct zones before synchronizing with a remote:
-
-```text
-+---------------------+     git add      +---------------------+    git commit    +---------------------+
-|                     | ---------------> |                     | ---------------> |                     |
-|  Working Directory  |                  |    Staging Area     |                  |  Local Repository   |
-|   (Untracked/Mod)   | <--------------- |       (Index)       |                  |     (HEAD / .git)   |
-+---------------------+    git restore   +---------------------+                  +---------------------+
-           ^                                                                                 |
-           |                                                                                 | git push
-           |                                     git pull / git fetch                        v
-           +---------------------------------------------------------------------- +---------------------+
-                                                                                   |  Remote Repository  |
-                                                                                   |      (GitHub)       |
-                                                                                   +---------------------+
-```
-
-1. **Working Directory:** The sandbox where files are created, edited, and deleted.
-2. **Staging Area (Index):** A buffer holding snapshot changes intended for the next commit.
-3. **Local Repository (`.git`):** A permanent, immutable ledger storing commits with unique SHA-1/SHA-256 hashes.
-4. **Remote Repository (GitHub):** A hosted central repository enabling multi-engineer collaboration.
+- **`git commit -m "message"`**:
+  - Commits **only changes that have been explicitly staged** using `git add <file>`.
+  - If you edit a tracked file but do not run `git add`, `git commit -m` will report nothing to commit or ignore unstaged changes.
+  
+- **`git commit -a -m "message"`** (or `git commit -am "message"`):
+  - The `-a` (all) flag **automatically stages all modified and deleted tracked files** before committing.
+  - **Crucial limitation:** It **ignores newly created (untracked) files**. Untracked files must still be introduced using `git add`.
 
 ---
 
-## Command Summary Cheat Sheet
+### 1.2 Comparison Table
 
-| Category | Command | Description |
+| Feature | `git commit -m` | `git commit -a -m` |
 |---|---|---|
-| **Setup** | `git config --global user.name "Name"` | Sets author name across all local repositories |
-| **Setup** | `git config --global user.email "email"` | Sets author email associated with Git commits |
-| **Init & Clone** | `git init` | Initializes a new Git repository in current directory |
-| **Init & Clone** | `git clone <repo-url>` | Clones an existing remote repository locally |
-| **Status & Diff** | `git status` | Shows state of working directory and staging area |
-| **Status & Diff** | `git diff` | Shows unstaged modifications between working tree and index |
-| **Staging** | `git add <file>` | Adds specific file changes to the staging area |
-| **Staging** | `git add .` | Stages all new, modified, and deleted files |
-| **Commit** | `git commit -m "msg"` | Commits staged snapshot with a descriptive message |
-| **Commit** | `git commit --amend` | Modifies the most recent commit |
-| **History** | `git log --oneline --graph` | Displays visual graph of commit history |
-| **Branching** | `git branch` | Lists all local branches |
-| **Branching** | `git checkout -b <branch>` | Creates and switches to a new branch |
-| **Branching** | `git switch -c <branch>` | Modern syntax to create and switch branches |
-| **Merging** | `git merge <branch>` | Merges specified branch into the current active branch |
-| **Remote** | `git remote add origin <url>` | Links local repository to a remote GitHub URL |
-| **Remote** | `git push -u origin <branch>` | Pushes commits and sets upstream tracking branch |
-| **Remote** | `git pull` | Fetches and integrates changes from remote branch |
+| **Modified tracked files** | Requires prior `git add` | Automatically staged & committed |
+| **Deleted tracked files** | Requires prior `git add` | Automatically staged & committed |
+| **New (untracked) files** | Ignored unless staged with `git add` | **Ignored** (never auto-staged) |
+| **Workflow speed** | Two-step: `git add` then `git commit` | Single-step shortcut for edits |
+| **Staging granularity** | High (choose exact files to stage) | Low (commits all modified tracked files) |
 
 ---
 
-## Step-by-Step Hands-On Workflow
-
-### 1. Configuration & Identity
-
-Configure author identity before making commits:
+### 1.3 Hands-On Experiment & Terminal Output
 
 ```bash
-git config --global user.name "mdkaif"
-git config --global user.email "your-email@example.com"
-git config --global init.defaultBranch main
-git config --list
+# 1. Setup tracked file and untracked file
+echo "initial" > file1.txt
+git add file1.txt
+git commit -m "initial commit"
+
+# 2. Modify tracked file and create untracked file
+echo "modified line" >> file1.txt
+echo "brand new file" > untracked.txt
+
+# 3. Check status
+git status -s
+# Output:
+#  M file1.txt
+# ?? untracked.txt
+
+# 4. Commit using -a -m
+git commit -a -m "update tracked file using -a -m"
+
+# 5. Check status after commit
+git status -s
+# Output:
+# ?? untracked.txt
+```
+
+#### Actual Terminal Result:
+```text
+[master 9953b76] update tracked file using -a -m
+ 1 file changed, 1 insertion(+)
+
+$ git status -s
+?? untracked.txt
 ```
 
 ---
 
-### 2. Repository Initialization & Tracking
+### 1.4 Key Takeaway
 
-Initialize a fresh repository or inspect the current directory:
-
-```bash
-mkdir my-devops-project
-cd my-devops-project
-git init
-```
-
-Verify the hidden `.git` internal database was created:
-```bash
-ls -la
-```
+`git commit -a -m` bypassed the need to run `git add file1.txt` for the existing file, but safely left `untracked.txt` untouched because newly created files are not yet tracked by Git.
 
 ---
 
-### 3. Staging, Inspecting & Committing
+## Task 2: Git Cherry-Pick
 
-Create project files and inspect git lifecycle transitions:
+### 2.1 What is Cherry-Pick?
 
-```bash
-echo "# DevOps Project" > README.md
-echo "node_modules/" > .gitignore
-echo "*.env" >> .gitignore
+`git cherry-pick <commit-hash>` applies the exact changes introduced by a specific commit from another branch onto your current active branch, creating a new commit with a new SHA hash.
 
-# Check untracked files
-git status
-
-# Stage files
-git add README.md .gitignore
-
-# Commit changes
-git commit -m "feat: initialize repository with README and .gitignore"
-
-# View commit log
-git log --oneline
-```
+#### Why is this crucial in DevOps?
+- **Hotfixes:** When a bug fix is developed on a long-running feature branch or staging branch, cherry-picking pulls **only that bug fix** into `main` or `production` without pulling incomplete feature code.
+- **Backporting:** Porting critical security patches from newer release branches back to older supported versions.
 
 ---
 
-### 4. Branching & Feature Workflow
+### 2.2 Step-by-Step Hands-On Workflow
 
-DevOps best practice mandates isolated feature branches to keep `main` production-ready:
-
-```bash
-# Create and switch to a feature branch
-git switch -c feature/docker-setup
-
-# Create feature work
-echo "FROM alpine:latest" > Dockerfile
-git add Dockerfile
-git commit -m "feat(docker): add base Alpine Dockerfile"
-
-# Check branches
-git branch -a
-```
+1. Create 2–4 commits in `main`.
+2. Inspect commits with `git log --oneline`.
+3. Create and switch to a new branch: `git switch -c feature-branch`.
+4. Create 2–3 commits on `feature-branch`.
+5. Identify the specific target commit to cherry-pick.
+6. Switch back to `main`: `git switch main`.
+7. Cherry-pick the target commit: `git cherry-pick <target-hash>`.
+8. Verify the commit appears in `main` history and files are present.
 
 ---
 
-### 5. Merging & Conflict Resolution
-
-Integrate feature changes into the main branch:
+### 2.3 Terminal Execution & Output
 
 ```bash
-# Return to main branch
+# 1. Create commits on main
+echo "main change 1" >> file1.txt && git commit -am "main commit 1"
+echo "main change 2" >> file1.txt && git commit -am "main commit 2"
+
+# 2. View main commits
+git log --oneline -n 3
+# 04e12e4 main commit 2
+# 2e24fc0 main commit 1
+# 9953b76 update tracked file using -a -m
+
+# 3. Create feature branch and make 3 commits
+git switch -c feature-branch
+echo "feature work 1" > feature.txt && git add . && git commit -m "feat: feature work 1"
+echo "HOTFIX CODE" > hotfix.txt && git add . && git commit -m "fix: important patch to cherry-pick"
+echo "feature work 2" >> feature.txt && git commit -am "feat: feature work 2"
+
+# 4. View feature branch commits to locate target hash
+git log --oneline -n 3
+# 05e8281 feat: feature work 2
+# c167c6f fix: important patch to cherry-pick   <-- TARGET COMMIT
+# c9c43cc feat: feature work 1
+
+# 5. Switch back to main and cherry-pick the fix
 git switch main
-
-# Fast-forward or 3-way merge
-git merge feature/docker-setup
-
-# Delete feature branch after merge
-git branch -d feature/docker-setup
+git cherry-pick c167c6f
 ```
-
-#### Handling Merge Conflicts
-When conflicting changes occur on the same lines across branches:
-1. Git halts merge and tags files with conflict markers (`<<<<<<<`, `=======`, `>>>>>>>`).
-2. Open conflicting files and resolve differences manually.
-3. Re-stage the resolved file: `git add <file>`.
-4. Finalize the merge: `git commit -m "merge: resolve conflict between branches"`.
 
 ---
 
-### 6. Remote Operations & GitHub Synchronization
-
-Link local repository to GitHub and push:
+### 2.4 Verification of Cherry-Picked Changes
 
 ```bash
-# Link remote repository
-git remote add origin https://github.com/WhySeriousKaif/DevOps-Homework.git
+# Verify commit history on main
+git log --oneline -n 4
 
-# Verify remote URL
-git remote -v
-
-# Push commits to remote main
-git push -u origin main
+# Verify the file is present in main
+cat hotfix.txt
 ```
 
----
+#### Actual Terminal Output:
+```text
+[main b4cb2f1] fix: important patch to cherry-pick
+ 1 file changed, 1 insertion(+)
+ create mode 100644 hotfix.txt
 
-## DevOps Collaboration & GitHub Features
+$ git log --oneline -n 4
+b4cb2f1 fix: important patch to cherry-pick
+04e12e4 main commit 2
+2e24fc0 main commit 1
+9953b76 update tracked file using -a -m
 
-### Pull Requests (PR) & Code Review
-- Feature branches are pushed to GitHub (`git push origin feature/xyz`).
-- A Pull Request is opened against `main`.
-- Automated CI checks (linting, tests, security scans) execute automatically.
-- Team members review diffs, leave line comments, and approve.
+$ cat hotfix.txt
+HOTFIX CODE
+```
 
-### Branch Protection & GitOps Integration
-- **Branch Protection Rules:** Prevent direct pushes to `main`, requiring at least 1 review approval and passing CI status checks.
-- **GitOps Triggers:** Once merged, webhook events notify CD operators (e.g., ArgoCD) to deploy changes to staging/production clusters.
-
----
-
-## Verification & Screenshots
-
-### Screenshot 1: Git Status & Staging Proof
-Demonstrating file modification, untracked files detection, and staging transitions.
-
-![Git Status](screenshots/git-status.png)
+**Result:** The patch `b4cb2f1` is now seamlessly integrated into `main` without merging any unfinished feature code (`feature.txt`).
 
 ---
 
-### Screenshot 2: Commit History & Tree Graph
-Visualizing commit history graph with hashes, author information, and branch pointers using `git log --oneline --graph --all`.
+## Execution & Output Screenshots
 
-![Commit History](screenshots/git-log.png)
+### Screenshot 1: Task 1 — `git commit -a -m` vs `git commit -m` Experiment
+Demonstrating modified tracked file committed automatically with `-a -m` while untracked file remains in working tree.
 
----
-
-### Screenshot 3: Branching & Merge Execution
-Demonstrating feature branch creation, switching, committing, and clean merge into `main`.
-
-![Git Branching & Merge](screenshots/git-branch.png)
+![Task 1 - Commit Flag Difference](screenshots/png1.png)
 
 ---
 
-### Screenshot 4: Remote Push & GitHub Repository
-Verifying clean synchronization between local repository and remote GitHub repository.
+### Screenshot 2: Task 2 — Git Cherry-Pick Execution & Verification
+Demonstrating commit history on feature branch, cherry-picking specific commit hash into `main`, and verifying `git log` and `cat hotfix.txt`.
 
-![GitHub Remote](screenshots/git-remote.png)
-
----
-
-## Best Practices & Key Learnings
-
-1. **Commit Early and Atomically:** Each commit should represent a single logical unit of work.
-2. **Standardize Commit Messages:** Follow Conventional Commits format (`feat:`, `fix:`, `docs:`, `chore:`, `refactor:`).
-3. **Always Maintain `.gitignore`:** Exclude build artifacts, binary files, environment variables (`.env`), and credentials (`id_rsa`).
-4. **Never Rewrite Shared History:** Avoid `git push --force` on shared public branches like `main`.
-5. **Pull Before Pushing:** Always run `git pull --rebase` to avoid unnecessary merge commits when collaborating.
+![Task 2 - Git Cherry-Pick](screenshots/png2.png)
 
 ---
 
-*Maintained by mdkaif — DevOps Homework Submission*
+## Key Learnings & DevOps Best Practices
+
+1. **Selective Integration:** Cherry-picking prevents "all-or-nothing" merge dilemmas when deploying urgent production hotfixes.
+2. **Commit Atomicity:** Keep commits small and focused so they can be cherry-picked cleanly without causing merge conflicts.
+3. **Safety First:** Avoid using `git commit -a` blindly on repositories with sensitive untracked files or local debug configuration.
+
+---
+
+*Maintained by MD Kaif Molla (24BCS10221) — DevOps Homework Submission*

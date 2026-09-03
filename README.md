@@ -56,6 +56,7 @@ devops-homework/
 │   └── screenshots/                   # Execution & browser proofs
 │
 ├── docker-images/
+│   ├── multi-stage-app/               # Multi-stage Dockerfile (Node builder -> Nginx runtime)
 │   ├── nodejs-app/                    # Optimized Node.js Dockerfile & index.js
 │   ├── python-app/                    # Python container image setup
 │   ├── java-app/                      # Java container image setup

@@ -1,231 +1,173 @@
-# Dockerfiles & Images: DevOps Homework
+# Docker Multi-Stage Build Homework
 
-A practical deep-dive into Docker image architecture, Dockerfile instructions, layer caching mechanisms, multi-stage builds, and container image optimization.
+A hands-on laboratory focusing on Docker multi-stage build optimization, container execution on designated ports, and multi-runtime application deployment (Node.js, Python, Java).
+
+---
+
+## Student Information
+
+- **Name:** MD Kaif Molla
+- **Enrollment Number:** 24BCS10221
+- **Repository:** [WhySeriousKaif/DevOps-Homework](https://github.com/WhySeriousKaif/DevOps-Homework)
 
 ---
 
 ## Table of Contents
 
-- [Overview & Container Image Principles](#overview--container-image-principles)
-- [Image vs Container Architecture](#image-vs-container-architecture)
-- [Dockerfile Instructions Deep-Dive](#dockerfile-instructions-deep-dive)
-- [Layer Caching & Optimization Strategies](#layer-caching--optimization-strategies)
-- [Multi-Stage Builds](#multi-stage-builds)
-- [Essential Docker Image Commands](#essential-docker-image-commands)
-- [Hands-on Practical Implementations](#hands-on-practical-implementations)
-  - [Example 1: Node.js Microservice Image](#example-1-nodejs-microservice-image)
-  - [Example 2: Python Web Application Image](#example-2-python-web-application-image)
-  - [Example 3: Multi-Stage Production Build (Go / React)](#example-3-multi-stage-production-build-go--react)
-- [Verification & Screenshots](#verification--screenshots)
-- [Security & Production Best Practices](#security--production-best-practices)
+- [Task 1: Run Multi-Stage Dockerfile](#task-1-run-multi-stage-dockerfile)
+  - [1.1 Multi-Stage Architecture](#11-multi-stage-architecture)
+  - [1.2 Dockerfile Source Code](#12-dockerfile-source-code)
+  - [1.3 Build and Run on Port 8080](#13-build-and-run-on-port-8080)
+  - [1.4 Output Verification](#14-output-verification)
+- [Task 2: Container Verification & Process Proof](#task-2-container-verification--process-proof)
+- [Task 3: Multi-Application Deployment (Node.js, Python, Java)](#task-3-multi-application-deployment-nodejs-python-java)
+- [Execution & Output Screenshots](#execution--output-screenshots)
+- [Key Learnings on Multi-Stage Builds](#key-learnings-on-multi-stage-builds)
 
 ---
 
-## Overview & Container Image Principles
+## Task 1: Run Multi-Stage Dockerfile
 
-In containerized DevOps environments, a **Docker Image** is a lightweight, standalone, executable package of software that includes everything needed to run an application: code, runtime, system tools, system libraries, and settings.
+### 1.1 Multi-Stage Architecture
 
-Images are built from declarative configuration files called **Dockerfiles**. Every instruction in a Dockerfile creates an immutable read-only layer in the storage driver (typically `overlay2`).
+In a standard Dockerfile, all compilation tools, intermediate cache files, and build utilities end up inside the final image, bloating its size and increasing security attack surfaces. 
+
+A **multi-stage build** separates concerns:
+1. **Build Stage (`builder`):** Compiles code or builds assets using a complete development environment (`node:18-alpine`).
+2. **Runtime Stage:** Starts from a lean production runtime (`nginx:alpine`) and copies **only** the compiled artifact (`COPY --from=builder`).
 
 ---
 
-## Image vs Container Architecture
+### 1.2 Dockerfile Source Code
+
+Located at [`multi-stage-app/Dockerfile`](./multi-stage-app/Dockerfile):
+
+```dockerfile
+# Stage 1: Build stage
+FROM node:18-alpine AS builder
+WORKDIR /build
+RUN echo '<!DOCTYPE html><html><head><title>Multi-Stage Build</title></head><body><h1>Hello World from Docker multi-stage build</h1></body></html>' > index.html
+
+# Stage 2: Minimal production runtime stage
+FROM nginx:alpine
+COPY --from=builder /build/index.html /usr/share/nginx/html/index.html
+RUN sed -i 's/listen       80;/listen       8080;/g' /etc/nginx/conf.d/default.conf 2>/dev/null || sed -i 's/80;/8080;/g' /etc/nginx/conf.d/default.conf
+EXPOSE 8080
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+---
+
+### 1.3 Build and Run on Port 8080
+
+1. **Build the image:**
+   ```bash
+   cd docker-images
+   docker build -t multistage-app ./multi-stage-app
+   ```
+
+2. **Run the container on port 8080:**
+   ```bash
+   docker run -d --name multistage-container -p 8080:8080 multistage-app
+   ```
+
+3. **Verify the running container via `docker ps`:**
+   ```bash
+   docker ps | grep multistage-container
+   ```
+
+---
+
+### 1.4 Output Verification
+
+Test the running application on port 8080:
+
+```bash
+curl -i http://localhost:8080
+```
+
+#### Actual Terminal Response:
 
 ```text
-+-------------------------------------------------------------+
-| Container: Writable Container Layer (Copy-on-Write / CoW)   | <-- ephemeral
-+-------------------------------------------------------------+
-| Layer 4: CMD ["node", "server.js"]                          | <-- Read-only
-+-------------------------------------------------------------+
-| Layer 3: COPY . /app                                        | <-- Read-only
-+-------------------------------------------------------------+
-| Layer 2: RUN npm install --production                       | <-- Read-only
-+-------------------------------------------------------------+
-| Layer 1: Base Image (node:18-alpine)                        | <-- Read-only
-+-------------------------------------------------------------+
+HTTP/1.1 200 OK
+Server: nginx/1.31.5
+Content-Type: text/html
+Content-Length: 137
+Connection: keep-alive
+
+<!DOCTYPE html><html><head><title>Multi-Stage Build</title></head><body><h1>Hello World from Docker multi-stage build</h1></body></html>
 ```
 
-- **Image:** An immutable, static blueprint composed of stacked read-only layers.
-- **Container:** A runnable instance of an image with a thin writable container layer added on top via Copy-on-Write (CoW).
-- When multiple containers run from the same base image, they share the underlying read-only layers, saving immense disk and memory overhead.
+The application successfully serves the requested message:
+> **`Hello World from Docker multi-stage build`** on **port 8080**.
 
 ---
 
-## Dockerfile Instructions Deep-Dive
+## Task 2: Container Verification & Process Proof
 
-| Instruction | Purpose | Best Practice / Common Usage |
-|---|---|---|
-| `FROM` | Specifies parent/base image | Always use specific tags (e.g., `node:18-alpine`) instead of mutable `:latest` |
-| `WORKDIR` | Sets active working directory | Always use absolute paths (e.g., `WORKDIR /app`). Avoid multiple `cd` commands |
-| `COPY` | Copies files from host context to image | Preferred over `ADD` for copying local files into the image |
-| `ADD` | Copies files, extracts tar archives, downloads URLs | Use only when automatic tarball extraction is required |
-| `RUN` | Executes commands during image build time | Chain commands using `&& \` and clean package caches (`rm -rf /var/cache/apk/*`) in the same layer |
-| `ENV` | Sets persistent environment variables | Available during build and at container runtime |
-| `ARG` | Defines build-time variables | Passed via `--build-arg`, not persisted in final running container |
-| `EXPOSE` | Documents ports intended for publishing | Informational documentation for runtime port mapping (`-p`) |
-| `ENTRYPOINT` | Configures container default executable | Defines the base command that cannot be easily overridden |
-| `CMD` | Default arguments or command | Provides default arguments to `ENTRYPOINT` or default standalone command |
-| `USER` | Switches execution user | Switch to non-root user (e.g., `USER node`) for least-privilege security |
-| `VOLUME` | Creates a designated mount point | Specifies paths intended to hold persistent or host-mounted data |
+Checking running containers using `docker ps --format`:
 
----
-
-## Layer Caching & Optimization Strategies
-
-Docker caches intermediate layers during `docker build`. If an instruction and its inputs haven't changed, Docker reuses the cached layer (`Using cache`), reducing build times from minutes to seconds.
-
-### The Ordering Principle: Least Frequently Changed First
-
-#### ❌ Inefficient Order (Cache Invalidation on Every Code Edit):
-```dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY . .                   # Invalidates cache whenever any code file changes!
-RUN npm install            # Re-runs expensive package download every time!
-CMD ["node", "index.js"]
-```
-
-#### ✅ Optimized Order (Leveraging Cache for Dependencies):
-```dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY package*.json ./      # Cached unless dependencies change
-RUN npm install --omit=dev # Reused from cache if package.json didn't change
-COPY . .                   # Fast copy of code changes only
-CMD ["node", "index.js"]
-```
-
----
-
-## Multi-Stage Builds
-
-Multi-stage builds allow using multiple `FROM` statements in a single Dockerfile. Heavy compilers, SDKs, and build tooling are confined to builder stages, leaving only minimal runtime binaries in the final production image.
-
-```dockerfile
-# Stage 1: Build & Compile
-FROM golang:1.21-alpine AS builder
-WORKDIR /src
-COPY go.mod go.sum ./
-RUN go mod download
-COPY . .
-RUN CGO_ENABLED=0 GOOS=linux go build -o /bin/app .
-
-# Stage 2: Minimal Production Image
-FROM alpine:3.19
-WORKDIR /app
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
-COPY --from=builder /bin/app /app/app
-USER appuser
-EXPOSE 8080
-CMD ["/app/app"]
-```
-
-**Result:** Image size drops from **~850 MB** (Go SDK) to **~15 MB** (Alpine + Binary).
-
----
-
-## Essential Docker Image Commands
-
-| Command | Description |
-|---|---|
-| `docker build -t <name>:<tag> <dir>` | Builds an image from a Dockerfile in the specified context |
-| `docker images` / `docker image ls` | Lists all local images, tags, IDs, and sizes |
-| `docker image history <image>` | Shows each layer, instruction, size, and creation timestamp |
-| `docker image inspect <image>` | Returns full JSON metadata (env, ports, entrypoint, architecture) |
-| `docker tag <source> <target>` | Creates a new tag pointing to an existing image |
-| `docker rmi <image>` | Removes one or more local images |
-| `docker image prune -a` | Removes all unused/dangling images not referenced by containers |
-| `docker save -o <file.tar> <image>` | Exports image to a portable tar archive |
-| `docker load -i <file.tar>` | Loads image from a tar archive |
-
----
-
-## Hands-on Practical Implementations
-
-### Example 1: Node.js Microservice Image
-
-**`docker-images/nodejs-app/index.js`:**
-```javascript
-const http = require('http');
-const PORT = process.env.PORT || 3000;
-
-const server = http.createServer((req, res) => {
-  res.writeHead(200, { 'Content-Type': 'application/json' });
-  res.end(JSON.stringify({
-    status: 'success',
-    message: 'Hello from Docker Image Node.js Microservice!',
-    timestamp: new Date().toISOString()
-  }));
-});
-
-server.listen(PORT, () => {
-  console.log(`Node server running on port ${PORT}`);
-});
-```
-
-**`docker-images/nodejs-app/Dockerfile`:**
-```dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY index.js .
-EXPOSE 3000
-USER node
-CMD ["node", "index.js"]
-```
-
-**Build & Run:**
 ```bash
-docker build -t nodejs-microservice:1.0 ./nodejs-app
-docker run -d --name node-service -p 3000:3000 nodejs-microservice:1.0
+docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}"
+```
+
+#### Output:
+```text
+NAMES                  IMAGE            STATUS          PORTS
+multistage-container   multistage-app   Up 5 minutes    0.0.0.0:8080->8080/tcp, [::]:8080->8080/tcp
+```
+
+---
+
+## Task 3: Multi-Application Deployment (Node.js, Python, Java)
+
+As required by Task 3, three different application types were containerized and deployed concurrently:
+
+| Application | Technology | Docker Base Image | Host Port | Verification Command | Expected Output |
+|---|---|---|---|---|---|
+| **1. Node.js** | Native HTTP Service | `node:18-alpine` | `3000` | `curl http://localhost:3000` | `<h1>Hello World from Node.js Application!</h1>` |
+| **2. Python** | `http.server` Module | `python:3.9-alpine` | `5001` | `curl http://localhost:5001` | `<h1>Hello World from Python Application!</h1>` |
+| **3. Java** | `com.sun.net.httpserver` | `amazoncorretto:17-alpine` | `8083` | `curl http://localhost:8083` | `<h1>Hello World from Java Application!</h1>` |
+
+#### Commands to deploy and test all 3:
+```bash
+# 1. Node.js Application
+docker run -d --name my-nodejs-app -p 3000:3000 nodejs-hello
 curl http://localhost:3000
+
+# 2. Python Application
+docker run -d --name my-python-app -p 5001:5000 python-hello
+curl http://localhost:5001
+
+# 3. Java Application
+docker run -d --name my-java-app2 -p 8083:8080 java-hello
+curl http://localhost:8083
 ```
 
 ---
 
-### Example 2: Python Web Application Image
+## Execution & Output Screenshots
 
-**Dockerfile:**
-```dockerfile
-FROM python:3.9-alpine
-WORKDIR /app
-COPY app.py .
-EXPOSE 5000
-CMD ["python", "app.py"]
-```
+### Screenshot 1: Multi-Stage Container on Port 8080 & Verification
+Demonstrating `docker ps` showing `multistage-container` running on port 8080 and curl verifying `Hello World from Docker multi-stage build`.
+
+![Multi-Stage Build Verification](screenshots/png1.png)
 
 ---
 
-## Verification & Screenshots
+### Screenshot 2: Three Distinct Application Deployments (Node.js, Python, Java)
+Demonstrating concurrent deployment and successful HTTP responses from Node.js, Python, and Java containers.
 
-### Screenshot 1: Docker Image Build & Layer Cache Proof
-Demonstrates building the image using `docker build -t <tag> .` and showing intermediate build steps and cache hits.
-
-![Docker Build](screenshots/docker-build.png)
+![Three Applications Deployed](screenshots/png2.png)
 
 ---
 
-### Screenshot 2: Local Images Listing & Size Verification (`docker images`)
-Terminal output displaying the built images, repository tags, image IDs, and optimized image sizes.
+## Key Learnings on Multi-Stage Builds
 
-![Docker Images List](screenshots/docker-images.png)
-
----
-
-### Screenshot 3: Image Layer History (`docker history`)
-Detailed inspection of individual layers, size contributions, and Dockerfile instruction mapping using `docker history`.
-
-![Docker History](screenshots/docker-history.png)
+1. **Drastic Image Reduction:** Compilers and build dependencies are discarded after stage 1, producing minimal images.
+2. **Security Hardening:** Production containers contain zero SDKs, debuggers, or build tools, drastically shrinking vulnerability surfaces.
+3. **Port Binding Determinism:** Using `-p 8080:8080` allows standardizing microservice exposure ports across hosts and orchestrators.
 
 ---
 
-## Security & Production Best Practices
-
-1. **Use Minimal Base Images:** Choose Alpine (`alpine`) or Distroless over standard Ubuntu/Debian bases to minimize Common Vulnerabilities and Exposures (CVEs).
-2. **Never Run as Root:** Explicitly set a non-root user (`USER node` or `USER 1001`).
-3. **Use `.dockerignore`:** Exclude `.git`, `node_modules`, test files, `.env`, and local build artifacts from the build context.
-4. **Pin Specific Image Digests/Tags:** Avoid mutable `:latest` tags in production to guarantee deterministic builds.
-5. **Scan for Vulnerabilities:** Run `docker scout cves <image>` or `trivy image <image>` in CI pipelines before deployment.
-
----
-
-*Maintained by mdkaif — DevOps Homework Submission*
+*Maintained by MD Kaif Molla (24BCS10221) — DevOps Homework Submission*
