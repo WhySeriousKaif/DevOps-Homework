@@ -13,7 +13,7 @@ Repository containing hands-on practical assignments, evidence, and documentatio
 |---|---|---|
 | **Linux Fundamentals** | [📁 linux-fundamentals/README.md](./linux-fundamentals/README.md) | ✅ Completed |
 | **Shell Scripting** | [📁 shell-scripting/README.md](./shell-scripting/README.md) | ✅ Completed |
-| **Networking** | [📁 networking/README.md](./networking/README.md) | 🚀 In Progress |
+| **Networking** | [📁 networking/README.md](./networking/README.md) | ✅ Completed |
 | **Git and GitHub** | [📁 git-github/README.md](./git-github/README.md) | ⏳ Upcoming |
 | **Docker Fundamentals** | [📁 docker-fundamentals/README.md](./docker-fundamentals/README.md) | ⏳ Upcoming |
 | **Docker Images** | [📁 docker-images/README.md](./docker-images/README.md) | ⏳ Upcoming |
