@@ -109,7 +109,7 @@ docker-fundamentals/
 - **Port:** `8080`
 - **Dockerfile:**
   ```dockerfile
-  FROM openjdk:17-alpine
+  FROM amazoncorretto:17-alpine
   WORKDIR /app
   COPY SimpleWebServer.java .
   RUN javac SimpleWebServer.java
@@ -154,11 +154,13 @@ docker-fundamentals/
 | Application | Container Port | Host Port | Web Access URL |
 |---|---|---|---|
 | **Node.js** | 3000 | 3000 | `http://localhost:3000` |
-| **Python** | 5000 | 5000 | `http://localhost:5000` |
+| **Python** | 5000 | 5001 | `http://localhost:5001` |
 | **Java** | 8080 | 8080 | `http://localhost:8080` |
 | **Apache** | 80 | 8081 | `http://localhost:8081` |
 | **React** | 80 | 3001 | `http://localhost:3001` |
 | **Nginx** | 80 | 8082 | `http://localhost:8082` |
+
+> *Note: Port 5001 is mapped to Python's internal port 5000 to prevent conflicts with native macOS AirPlay services on host port 5000.*
 
 ---
 
@@ -178,7 +180,7 @@ docker build -t nginx-hello ./nginx-app
 ### 2. Run All Containers
 ```bash
 docker run -d --name my-nodejs-app -p 3000:3000 nodejs-hello
-docker run -d --name my-python-app -p 5000:5000 python-hello
+docker run -d --name my-python-app -p 5001:5000 python-hello
 docker run -d --name my-java-app -p 8080:8080 java-hello
 docker run -d --name my-apache-app -p 8081:80 apache-hello
 docker run -d --name my-react-app -p 3001:80 react-hello
@@ -193,7 +195,7 @@ docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}"
 ### 4. Verify Hello World Responses
 ```bash
 curl http://localhost:3000
-curl http://localhost:5000
+curl http://localhost:5001
 curl http://localhost:8080
 curl http://localhost:8081
 curl http://localhost:3001
