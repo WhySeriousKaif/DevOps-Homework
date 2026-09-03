@@ -148,7 +148,7 @@ curl http://localhost:8083
 
 ## Execution & Output Screenshots
 
-### Screenshot 1: Multi-Stage Container on Port 8080 & Verification
+### Screenshot 1: Multi-Stage Container on Port 8080 & Terminal Verification
 Demonstrating `docker ps` showing `multistage-container` running on port 8080 and curl verifying `Hello World from Docker multi-stage build`.
 
 ![Multi-Stage Build Verification](screenshots/png1.png)
@@ -159,6 +159,20 @@ Demonstrating `docker ps` showing `multistage-container` running on port 8080 an
 Demonstrating concurrent deployment and successful HTTP responses from Node.js, Python, and Java containers.
 
 ![Three Applications Deployed](screenshots/png2.png)
+
+---
+
+### Screenshot 3: Browser Verification — Python Application (Port 5001)
+Browser view displaying Hello World from the Python application running on port 5001.
+
+![Python Webpage](screenshots/png3.png)
+
+---
+
+### Screenshot 4: Browser Verification — Multi-Stage Build Application (Port 8080)
+Browser view displaying Hello World from Docker multi-stage build running on port 8080.
+
+![Multi-Stage Webpage](screenshots/png4.png)
 
 ---
 

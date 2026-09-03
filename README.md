@@ -2,22 +2,56 @@
 
 Repository containing hands-on practical assignments, evidence, and documentation for the DevOps curriculum.
 
-**Author:** mdkaif  
-**Repository:** [WhySeriousKaif/DevOps-Homework](https://github.com/WhySeriousKaif/DevOps-Homework)
+- **Author:** MD Kaif Molla
+- **Enrollment Number:** 24BCS10221
+- **Repository:** [WhySeriousKaif/DevOps-Homework](https://github.com/WhySeriousKaif/DevOps-Homework)
 
 ---
 
 ## 📚 Homework Modules & Submissions
 
-| Module | Directory / Submission Link | Status |
-|---|---|---|
-| **Linux Fundamentals** | [📁 linux-fundamentals/README.md](./linux-fundamentals/README.md) | ✅ Completed |
-| **Shell Scripting** | [📁 shell-scripting/README.md](./shell-scripting/README.md) | ✅ Completed |
-| **Networking Fundamentals** | [📁 networking/README.md](./networking/README.md) | ✅ Completed |
-| **Git / GitHub** | [📁 git-github/README.md](./git-github/README.md) | 📄 Ready for Submission |
-| **Docker Fundamentals** | [📁 docker-fundamentals/README.md](./docker-fundamentals/README.md) | ✅ Completed |
-| **Dockerfiles & Images** | [📁 docker-images/README.md](./docker-images/README.md) | 📄 Ready for Submission |
-| **Docker Networking** | [📁 docker-networking/README.md](./docker-networking/README.md) | 📄 Ready for Submission |
+| # | Module | Repository Folder | Direct Google Form Submission Link | Status |
+|---|---|---|---|---|
+| 1 | **Linux Fundamentals** | [📁 `linux-fundamentals/`](./linux-fundamentals/README.md) | [README Link](https://github.com/WhySeriousKaif/DevOps-Homework/blob/main/linux-fundamentals/README.md) | ✅ Ready |
+| 2 | **Shell Scripting** | [📁 `shell-scripting/`](./shell-scripting/README.md) | [README Link](https://github.com/WhySeriousKaif/DevOps-Homework/blob/main/shell-scripting/README.md) | ✅ Ready |
+| 3 | **Networking Fundamentals** | [📁 `networking/`](./networking/README.md) | [README Link](https://github.com/WhySeriousKaif/DevOps-Homework/blob/main/networking/README.md) | ✅ Ready |
+| 4 | **Git / GitHub** | [📁 `git-github/`](./git-github/README.md) | [README Link](https://github.com/WhySeriousKaif/DevOps-Homework/blob/main/git-github/README.md) | ✅ Ready |
+| 5 | **Docker Fundamentals** | [📁 `docker-fundamentals/`](./docker-fundamentals/README.md) | [README Link](https://github.com/WhySeriousKaif/DevOps-Homework/blob/main/docker-fundamentals/README.md) | ✅ Ready |
+| 6 | **Dockerfiles & Images** | [📁 `docker-images/`](./docker-images/README.md) | [README Link](https://github.com/WhySeriousKaif/DevOps-Homework/blob/main/docker-images/README.md) | ✅ Completed |
+| 7 | **Docker Networking** | [📁 `docker-networking/`](./docker-networking/README.md) | [README Link](https://github.com/WhySeriousKaif/DevOps-Homework/blob/main/docker-networking/README.md) | ✅ Ready |
+
+---
+
+## 🔗 Copy-Paste Links for Google Form
+
+1. **Linux Fundamentals:**
+   ```text
+   https://github.com/WhySeriousKaif/DevOps-Homework/blob/main/linux-fundamentals/README.md
+   ```
+2. **Shell Scripting:**
+   ```text
+   https://github.com/WhySeriousKaif/DevOps-Homework/blob/main/shell-scripting/README.md
+   ```
+3. **Networking Fundamentals:**
+   ```text
+   https://github.com/WhySeriousKaif/DevOps-Homework/blob/main/networking/README.md
+   ```
+4. **Git / GitHub:**
+   ```text
+   https://github.com/WhySeriousKaif/DevOps-Homework/blob/main/git-github/README.md
+   ```
+5. **Docker Fundamentals:**
+   ```text
+   https://github.com/WhySeriousKaif/DevOps-Homework/blob/main/docker-fundamentals/README.md
+   ```
+6. **Dockerfiles & Images:**
+   ```text
+   https://github.com/WhySeriousKaif/DevOps-Homework/blob/main/docker-images/README.md
+   ```
+7. **Docker Networking:**
+   ```text
+   https://github.com/WhySeriousKaif/DevOps-Homework/blob/main/docker-networking/README.md
+   ```
 
 ---
 
@@ -26,7 +60,7 @@ Repository containing hands-on practical assignments, evidence, and documentatio
 ```text
 devops-homework/
 │
-├── README.md                          # Root index & module directory
+├── README.md                          # Root index & copy-paste submission directory
 │
 ├── linux-fundamentals/
 │   ├── README.md                      # Task 1 to Task 4 documentation & observations
@@ -42,8 +76,8 @@ devops-homework/
 │   └── screenshots/                   # Network diagnostic proofs
 │
 ├── git-github/
-│   ├── README.md                      # Git architecture, workflow, branching, and PRs
-│   └── screenshots/                   # Git & GitHub execution proofs
+│   ├── README.md                      # Commit mechanics (-a -m vs -m), cherry-pick lab
+│   └── screenshots/                   # Git execution proofs
 │
 ├── docker-fundamentals/
 │   ├── nodejs-app/                    # Node.js Hello World web app & Dockerfile
@@ -56,21 +90,20 @@ devops-homework/
 │   └── screenshots/                   # Execution & browser proofs
 │
 ├── docker-images/
-│   ├── multi-stage-app/               # Multi-stage Dockerfile (Node builder -> Nginx runtime)
-│   ├── nodejs-app/                    # Optimized Node.js Dockerfile & index.js
+│   ├── nodejs-app/                    # Node.js container image setup
 │   ├── python-app/                    # Python container image setup
 │   ├── java-app/                      # Java container image setup
 │   ├── Apache-app/                    # Apache container image setup
 │   ├── React-app/                     # React container image setup
 │   ├── nginx-app/                     # Nginx container image setup
-│   ├── README.md                      # Layer caching, multi-stage builds & optimization
-│   └── screenshots/                   # Image build & history verification
+│   ├── README.md                      # Multi-stage builds, layer caching & port 8080 lab
+│   └── screenshots/                   # Multi-stage build & container proofs
 │
 └── docker-networking/
-    ├── README.md                      # Bridge, host, none, custom DNS & multi-tier labs
-    └── screenshots/                   # Network inspect, DNS ping & port proofs
+    ├── README.md                      # Multi-tier network isolation, host mode, bind mounts
+    └── screenshots/                   # Network inspect, DNS ping & bind mount proofs
 ```
 
 ---
 
-*Maintained by mdkaif — DevOps Homework Submission*
+*Maintained by MD Kaif Molla (24BCS10221) — DevOps Homework Submission*
