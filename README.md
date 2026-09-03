@@ -13,12 +13,11 @@ Repository containing hands-on practical assignments, evidence, and documentatio
 |---|---|---|
 | **Linux Fundamentals** | [📁 linux-fundamentals/README.md](./linux-fundamentals/README.md) | ✅ Completed |
 | **Shell Scripting** | [📁 shell-scripting/README.md](./shell-scripting/README.md) | ✅ Completed |
-| **Networking** | [📁 networking/README.md](./networking/README.md) | ✅ Completed |
-| **Git and GitHub** | [📁 git-github/README.md](./git-github/README.md) | ⏳ Upcoming |
-| **Docker Fundamentals** | [📁 docker-fundamentals/README.md](./docker-fundamentals/README.md) | 🚀 In Progress |
-| **Docker Images** | [📁 docker-images/README.md](./docker-images/README.md) | ⏳ Upcoming |
-| **Docker Networking** | [📁 docker-networking/README.md](./docker-networking/README.md) | ⏳ Upcoming |
-| **Git and GitHub** | [📁 git-github/README.md](./git-github/README.md) | ⏳ Upcoming |
+| **Networking Fundamentals** | [📁 networking/README.md](./networking/README.md) | ✅ Completed |
+| **Git / GitHub** | [📁 git-github/README.md](./git-github/README.md) | 📄 Ready for Submission |
+| **Docker Fundamentals** | [📁 docker-fundamentals/README.md](./docker-fundamentals/README.md) | ✅ Completed |
+| **Dockerfiles & Images** | [📁 docker-images/README.md](./docker-images/README.md) | 📄 Ready for Submission |
+| **Docker Networking** | [📁 docker-networking/README.md](./docker-networking/README.md) | 📄 Ready for Submission |
 
 ---
 
@@ -27,16 +26,11 @@ Repository containing hands-on practical assignments, evidence, and documentatio
 ```text
 devops-homework/
 │
-├── README.md                          # Root index & overview
+├── README.md                          # Root index & module directory
 │
 ├── linux-fundamentals/
 │   ├── README.md                      # Task 1 to Task 4 documentation & observations
 │   └── screenshots/                   # Terminal execution evidence
-│       ├── png1.png
-│       ├── png2.png
-│       ├── png3.png
-│       ├── png4.png
-│       └── png5.png
 │
 ├── shell-scripting/
 │   ├── system_info.sh                 # System information automation script
@@ -46,6 +40,10 @@ devops-homework/
 ├── networking/
 │   ├── README.md                      # Networking commands explanation & output
 │   └── screenshots/                   # Network diagnostic proofs
+│
+├── git-github/
+│   ├── README.md                      # Git architecture, workflow, branching, and PRs
+│   └── screenshots/                   # Git & GitHub execution proofs
 │
 ├── docker-fundamentals/
 │   ├── nodejs-app/                    # Node.js Hello World web app & Dockerfile
@@ -57,5 +55,21 @@ devops-homework/
 │   ├── README.md                      # Docker runtimes & port mapping guide
 │   └── screenshots/                   # Execution & browser proofs
 │
-└── ...
+├── docker-images/
+│   ├── nodejs-app/                    # Optimized Node.js Dockerfile & index.js
+│   ├── python-app/                    # Python container image setup
+│   ├── java-app/                      # Java container image setup
+│   ├── Apache-app/                    # Apache container image setup
+│   ├── React-app/                     # React container image setup
+│   ├── nginx-app/                     # Nginx container image setup
+│   ├── README.md                      # Layer caching, multi-stage builds & optimization
+│   └── screenshots/                   # Image build & history verification
+│
+└── docker-networking/
+    ├── README.md                      # Bridge, host, none, custom DNS & multi-tier labs
+    └── screenshots/                   # Network inspect, DNS ping & port proofs
 ```
+
+---
+
+*Maintained by mdkaif — DevOps Homework Submission*
