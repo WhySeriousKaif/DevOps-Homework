@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: broken-app-pod
+  labels:
+    app: broken-app
+spec:
+  containers:
+  - name: broken-container
+    image: nginx:alpine
+    # Deliberate misconfiguration: command syntax typo causing CrashLoop
+    command: ["invalid_command_to_fail"]

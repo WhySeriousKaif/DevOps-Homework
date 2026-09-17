@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  frontend:
+    image: nginx:alpine
+    container_name: compose-frontend
+    ports:
+      - "8090:80"
+    networks:
+      - frontend-net
+    depends_on:
+      - backend
+
+  backend:
+    image: alpine:latest
+    container_name: compose-backend
+    command: sleep 3600
+    networks:
+      - frontend-net
+      - backend-net
+    depends_on:
+      - database
+
+  database:
+    image: alpine:latest
+    container_name: compose-database
+    command: sleep 3600
+    networks:
+      - backend-net
+
+networks:
+  frontend-net:
+    driver: bridge
+  backend-net:
+    driver: bridge
