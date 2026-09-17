@@ -20,9 +20,9 @@ Repository containing hands-on practical assignments, evidence, and documentatio
 | 6 | **Dockerfiles & Images** | [📁 `docker-images/`](./docker-images/README.md) | [README Link](https://github.com/WhySeriousKaif/DevOps-Homework/blob/main/docker-images/README.md) | ✅ Completed |
 | 7 | **Docker Networking** | [📁 `docker-networking/`](./docker-networking/README.md) | [README Link](https://github.com/WhySeriousKaif/DevOps-Homework/blob/main/docker-networking/README.md) | ✅ Completed |
 | 8 | **Kubernetes Fundamentals** | [📁 `kubernetes-fundamentals/`](./kubernetes-fundamentals/README.md) | [README Link](https://github.com/WhySeriousKaif/DevOps-Homework/blob/main/kubernetes-fundamentals/README.md) | 📄 Ready for Screenshots |
-| 9 | **Kubernetes Pods, ReplicaSets & Deployments** | [📁 `kubernetes-pods-replicas-deployments/`](./kubernetes-pods-replicas-deployments/README.md) | [README Link](https://github.com/WhySeriousKaif/DevOps-Homework/blob/main/kubernetes-pods-replicas-deployments/README.md) | 📄 Ready for Screenshots |
-| 10 | **Kubernetes Networking & Services** | [📁 `kubernetes-networking-services/`](./kubernetes-networking-services/README.md) | [README Link](https://github.com/WhySeriousKaif/DevOps-Homework/blob/main/kubernetes-networking-services/README.md) | 📄 Ready for Screenshots |
-| 11 | **Kubernetes Ingress, ConfigMaps & Secrets** | [📁 `kubernetes-ingress-configmaps-secrets/`](./kubernetes-ingress-configmaps-secrets/README.md) | [README Link](https://github.com/WhySeriousKaif/DevOps-Homework/blob/main/kubernetes-ingress-configmaps-secrets/README.md) | 📄 Ready for Screenshots |
+| 9 | **Kubernetes Pods, ReplicaSets & Deployments** | [📁 `kubernetes-pods-replicas-deployments/`](./kubernetes-pods-replicas-deployments/README.md) | [README Link](https://github.com/WhySeriousKaif/DevOps-Homework/blob/main/kubernetes-pods-replicas-deployments/README.md) | ✅ Completed |
+| 10 | **Kubernetes Networking & Services** | [📁 `kubernetes-networking-services/`](./kubernetes-networking-services/README.md) | [README Link](https://github.com/WhySeriousKaif/DevOps-Homework/blob/main/kubernetes-networking-services/README.md) | ✅ Completed |
+| 11 | **Kubernetes Ingress, ConfigMaps & Secrets** | [📁 `kubernetes-ingress-configmaps-secrets/`](./kubernetes-ingress-configmaps-secrets/README.md) | [README Link](https://github.com/WhySeriousKaif/DevOps-Homework/blob/main/kubernetes-ingress-configmaps-secrets/README.md) | ✅ Completed |
 
 ---
 
